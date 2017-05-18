@@ -1,0 +1,18 @@
+{
+  "manifest_version": 2,
+  "name": "FB Sell Group Filter & Order",
+  "version": "0.0.1",
+
+  "description": "Filter & order sell items by price & name",
+  "icons": {
+    "16": "filter_16.png",
+    "48": "filter_48.png",
+    "128": "filter_128.png"
+  },
+
+  "content_scripts": [{
+    "css": ["nouislider.min.css", "style.css"],
+    "js": ["nouislider.min.js", "ext.js"],
+    "matches": ["https://*.facebook.com/groups/*/forsaleposts*"]
+  }]
+}

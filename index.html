@@ -1,0 +1,89 @@
+<html>
+  <head>
+    <style>
+      #filterify-container {
+        -webkit-tap-highlight-color: transparent;
+        /*box-sizing: border-box;*/
+        background-color: #FFF;
+        border-radius: 2px;
+        box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+        color: #000;
+        cursor: move;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+        font-size: 16px;
+        left: 25px;
+        margin: 0;
+        padding: 30px;
+        position: fixed;
+        top: 65px;
+        width: 300px;
+        z-index: 1000;
+      }
+
+      #filterify-container:hover {
+        box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+      }
+      #filterify-container:active {
+        cursor: move;
+      }
+    </style>
+  </head>
+  <body>
+    <div id='filterify-container' draggable="true">
+      filterify-container
+    </div>
+
+    <script>
+      let ITEMS = {
+        container: {
+        }
+      }
+
+      let UIContainer = document.querySelector('#filterify-container')
+
+      UIContainer.addEventListener('dragstart', e => {
+        // e.preventDefault()
+        ITEMS.container.dragStart = {
+          clientX: e.clientX,
+          clientY: e.clientY,
+          offsetLeft: UIContainer.offsetLeft,
+          offsetTop: UIContainer.offsetTop,
+        }
+        console.log(e.type, '---- UIContainer.offsetLeft', UIContainer.offsetLeft)
+        console.log(e.type, '---- e.clientX', e.clientX)
+
+        e.dataTransfer.effectAllowed = "move";
+        e.dataTransfer.dropEffect = "move";
+      }) // dragstart
+
+      UIContainer.addEventListener('drag', e => {
+        // e.preventDefault()
+        console.log(e.type, '---- ITEMS.container.dragStart.offsetLeft', ITEMS.container.dragStart.offsetLeft)
+        console.log(e.type, '---- ITEMS.container.dragStart.clientX', ITEMS.container.dragStart.clientX)
+        console.log(e.type, '---- e.clientX', e.clientX)
+
+        // e.dataTransfer.effectAllowed = "move";
+        // e.dataTransfer.dropEffect = "move";
+        // e.target.style.cursor = "move";
+
+        UIContainer.style.left = `${ITEMS.container.dragStart.offsetLeft + (e.clientX - ITEMS.container.dragStart.clientX)}px`
+        UIContainer.style.top = `${ITEMS.container.dragStart.offsetTop + (e.clientY - ITEMS.container.dragStart.clientY)}px`
+      }) // drag
+
+      UIContainer.addEventListener('dragover', function(e) {
+        event.preventDefault();
+        // e.dataTransfer.effectAllowed = "move";
+        // e.dataTransfer.dropEffect = "move";
+      }, false);
+      UIContainer.addEventListener('drop', function(e) {
+        event.preventDefault();
+        // e.dataTransfer.effectAllowed = "move";
+        // e.dataTransfer.dropEffect = "move";
+      }, false);
+      // window.addEventListener('dragover', function(event) {
+      //   // prevent default to allow drop
+      //   event.preventDefault();
+      // }, false);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,245 @@
+
+
+// TL;DR responsive layout with min dimensions of 960x600 px
+
+
+// HORIZONTAL LAYOUT (min-width)
+//
+// 'padding' will be applied to .filterify-container
+// PADDING -> 30 +     + 30 +     + 30 px =  90px
+//
+// 'width' will be applied to .filterify-menu and .filterify-posts
+// WIDTH   ->    + 300 +    + 570 +    px = 870px
+
+// ----------------------------------------------
+// TOTAL   ->                               960px
+//
+// considering a 1024x768 px screen: 1024 - 960 px = 64px -> 32px per both left and right margin
+
+
+// VERTICAL LAYOUT (min-height)
+//
+// 'padding' will be applied to .filterify-container
+// PADDING -> 30 +     + 30 px =  60px
+//
+// 'height' will be applied to .filterify-menu and .filterify-posts
+// HEIGHT  ->    + 540 +    px = 540px
+//
+// -----------------------------------
+// TOTAL   ->                    600px
+//
+// considering a 1024x768 px screen and 170px navigation bar: 768 - 170 - 600 px ~= 0px -> 0px per both left and right margin
+
+
+.noUi {
+  &-connect {
+    background-color: rgba(110, 177, 36, .2); // #6eb124;
+    box-shadow: none;
+  } // .noUi-connect
+
+  &-handle {
+    box-shadow: none;
+  } // .noUi-handle
+
+  &-tooltip {
+    border: none;
+    white-space: nowrap;
+  } // .noUi-tooltip
+
+} // .noUi
+
+
+
+
+.filterify {
+  // default (see reset)
+  -webkit-tap-highlight-color: transparent;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  font-size: 16px;
+  margin: 0;
+  // end
+
+  background-color: #FFF;
+  border-radius: 2px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22); // card-4 // https://codepen.io/sdthornton/pen/wBZdXq
+  color: #000;
+  padding: 30px;
+  position: fixed;
+  white-space: nowrap; // collapse white space
+  z-index: 1000;
+
+  left: 20px; // test
+  top: 20px; // test
+
+  * {
+    // reset (see default)
+    -webkit-tap-highlight-color: transparent;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+    font-size: 14px;
+    font-weight: 100;
+    margin: 0;
+    // end
+    padding: 0;
+  } // .filterify *
+
+
+  .menu {
+    display: inline-block;
+    vertical-align: top; // follows 'inline-block' for proper alignment
+    white-space: normal; // restore white-space because of parent
+
+    // see layout calculation above
+    height: 85vh;
+    margin-right: 30px;
+    max-height: 85vh;
+    min-height: 540px;
+    min-width: 300px;
+    width: 300px;
+    // end
+
+    .group {
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      width: 100%;
+    }
+
+    .header {
+      margin-bottom: 20px;
+      width: 100%;
+
+      .qty,
+      .match {
+        font-weight: 900;
+      }
+    }
+
+    .price {
+      height: 100px;
+      margin-bottom: 20px;
+      padding-top: 40px;
+      width: 100%;
+
+      .slider {
+        margin: 0 auto;
+        width: 275px;
+      }
+
+      .min, .max {
+        display: inline-block;
+        margin-top: 30px;
+      }
+
+      .min {
+        float: left;
+      }
+
+      .max {
+        float: right;
+      }
+    }
+
+    .title-or-description {
+      display: block;
+      height: 50px;
+      padding-left: 10px;
+      padding-right: 10px;
+      width: 100%;
+    }
+  } // .filterify .menu
+
+  .posts {
+    display: inline-block;
+    overflow: auto;
+    vertical-align: top; // follows 'inline-block' for proper alignment
+    white-space: normal; // restore white-space because of parent
+
+    // see layout calculation above
+    height: 85vh;
+    max-height: 85vh;
+    min-height: 540px;
+    min-width: 50vw; // 10 + 40 = 50 vw
+    // width: based on content
+    // end
+
+    .post {
+      margin-bottom: 25px;
+      white-space: nowrap; // collapse white space
+
+      .preview {
+        background-color: #f6f7f9;
+        background-image: url('https://www.facebook.com/rsrc.php/v3/yv/r/Cqt6rxgitmm.png');
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 30px 30px;
+        display: inline-block;
+        vertical-align: top; // follows 'inline-block' for proper alignment
+        white-space: normal; // restore white-space because of parent
+
+        // see layout calculation above
+        height: 10vw;
+        min-height: 120px;
+        min-width: 120px; // 120 + 450 = 570px
+        width: 10vw; // 10 + 40 = 50 vw
+        // end
+      } // .filterify .posts .post .preview
+
+      .content {
+        display: inline-block;
+        overflow: hidden;
+        padding-left: 10px;
+        vertical-align: top; // follows 'inline-block' for proper alignment
+        white-space: normal; // restore white-space because of parent
+
+        // see layout calculation above
+        height: 10vw;
+        min-height: 120px;
+        min-width: 450px; // 120 + 450 = 570px
+        width: 40vw; // 10 + 40 = 50 vw
+        // end
+
+        .title {
+          color: #365899;
+          display: block;
+          text-transform: uppercase;
+          width: 100%;
+        } // .filterify .posts .post .content .title
+
+        .price {
+          color: #6eb124;
+          display: block;
+          width: 100%;
+        } // .filterify .posts .post .content .price
+
+        .place {
+          background-image: url(https://www.facebook.com/rsrc.php/v3/yN/r/MX4iULEMQyd.png);
+          background-position-x: left;
+          background-position-y: center;
+          background-repeat: no-repeat;
+          background-size: 8px;
+          padding-left: 11px;
+
+          color: #90949c;
+          display: block;
+          margin-bottom: 10px;
+          width: 100%;
+        } // .filterify .posts .post .content .place
+
+        .description {
+          color: #90949c;
+          display: block;
+          font-size: 14px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap; // for 'ellipsis'
+          width: 100%;
+        } // .filterify .posts .post .content .description
+
+      } // .filterify .posts .post .content
+
+    } // .filterify .posts .post
+
+  } // .filterify .posts
+
+} // .filterify
