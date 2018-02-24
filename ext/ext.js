@@ -145,6 +145,22 @@
 // (() => ())()
 
 
+// function centsToCurrency(symbol, cents) {
+// 	// cents = 'int'
+// 	cents = cents.toString()
+
+// 	if (cents.length === 1) { cents = `00${cents}` }
+// 	if (cents.length === 2) { cents = `0${cents}` }
+
+// 	return symbol
+// 		   + ' '
+// 		   + cents.substring(0, cents.length - 2)
+// 		     .replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1.')
+// 		   + ','
+// 		   + cents.substring(cents.length - 2, cents.length)
+// }
+
+
 (function () {
 
   var ITEMS = {
@@ -173,7 +189,7 @@
     ui: {
       filters: {
         init: initFiltersUI,
-        place: {},
+        places: {},
         priceMax: null,
         priceMin: null,
         search: searchItemsByFilters,
@@ -182,7 +198,7 @@
       currency: {
         format: {
           numToStr: function numToStr(num) {
-            return ITEMS.ui.currency.symbol + ' ' + num.toString().split('.')[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1 ');
+            return ITEMS.ui.currency.symbol + ' ' + num.toString().split('.')[0].replace(/(\d)(?=(\d{3})+(?!\d))/gi, '$1 ');
           },
           strToNum: function strToNum(str) {
             return Number(str.replace(new RegExp(ITEMS.ui.currency.symbol + '|\\s+|\\.+|\\,+', 'gi'), ''));
@@ -293,8 +309,7 @@
 
       // update place
       if (place_search.length > 0) {
-        // ITEMS.ui.filters.place[place_search] = (ITEMS.ui.filters.place[place_search] || 0) + 1
-        ITEMS.ui.filters.place[place_search.toUpperCase()] = (ITEMS.ui.filters.place[place_search] || 0) + 1;
+        ITEMS.ui.filters.places[place_search] = (ITEMS.ui.filters.places[place_search] || 0) + 1;
       }
     } // for elArr
 
@@ -316,7 +331,42 @@
     var ignoreScroll = true;
     ITEMS.ui.filters.search(ignoreScroll);
 
-    console.log('----- ITEMS.ui.filters.place', ITEMS.ui.filters.place); // scelta multipla
+    // const places = Object.keys(ITEMS.ui.filters.places).sort()
+    // let uiFiltersPlacesHTML = ''
+    // // for (let i = 0; i < places.length; i += 1) {
+    // for (let i = 0; i < 100; i += 1) {
+    //   uiFiltersPlacesHTML += `
+    //       <div class="place">
+
+    //         <div class="toggle">
+    //           <input class="visibility" id="filterify-place-toggle-visibility-${ i }" type="checkbox">
+
+    //           <label class="switch" for="filterify-place-toggle-visibility-${ i }">
+    //             <span class="handler"></span>
+    //           </label>
+    //         </div>
+
+    //         <label class="label" for="filterify-place-toggle-visibility-${ i }">
+    //           <span class="description">${ places[i] } <span class="qty">(${ ITEMS.ui.filters.places[places[i]] })</span>
+    //         </label>
+
+    //       </div>
+    //   `
+    // }
+    // document.querySelector('.filterify .menu .places .list').innerHTML = uiFiltersPlacesHTML
+
+    // SELECT ALL
+    // DESELECT ALL
+    // for (let search_key in ITEMS.ui.filters.place) {
+    //   `<div class="toggle">
+    //     <input id="toggle-N" type="checkbox">
+    //     <label class="label" for="toggle-N">
+    //       <span class="handler"></span>
+    //       <span class="place">${ search_key }</span>nbsp;(<span class="count">${ ITEMS.ui.filters.place[search_key] }</span>)
+    //     </label>
+    //   </div>
+    //   `
+    // }
   } // addItemsToItemsList
 
   function initFiltersUI() {
@@ -325,7 +375,38 @@
     UIContainer.setAttribute('class', 'filterify');
     UIContainer.setAttribute('draggable', 'true');
 
-    UIContainer.innerHTML = '\n  <div class="menu">\n\n    <div class="group"></div>\n\n    <div class="header">\n      <span class="match">' + ITEMS.list.data.length + '</span> of <span class="qty">' + ITEMS.list.data.length + '</span> items for sale match your filters\n    </div>\n\n    <div class="price">\n      <!-- leave .min  and .max above .slider or the latter will break the layout -->\n      <span class="min"></span><span class="max"></span>\n      <div class="slider">\n      </div>\n    </div>\n\n    <input class="title-or-description" type="text" placeholder="Seach for item...">\n\n    <!--div class="place"></div-->\n\n  </div>\n\n  <div class="posts"></div>\n  ';
+    UIContainer.innerHTML = '\n  <div class="menu">\n\n    <div class="group"></div>\n\n    <div class="header">\n      <span class="match">' + ITEMS.list.data.length + '</span> of <span class="qty">' + ITEMS.list.data.length + '</span> items for sale match your filters\n    </div>\n\n    <div class="price">\n      <!-- leave .min  and .max above .slider or the latter will break the layout -->\n      <span class="min"></span><span class="max"></span>\n      <div class="slider"></div>\n    </div>\n\n    <input class="title-or-description" type="text" placeholder="Seach for item...">\n\n  </div>\n\n  <div class="posts"></div>\n  ';
+    // UIContainer.innerHTML = `
+    // <div class="menu">
+
+    //   <div class="group"></div>
+
+    //   <div class="header">
+    //     <span class="match">${ITEMS.list.data.length}</span> of <span class="qty">${ITEMS.list.data.length}</span> items for sale match your filters
+    //   </div>
+
+    //   <div class="price">
+    //     <!-- leave .min  and .max above .slider or the latter will break the layout -->
+    //     <span class="min"></span><span class="max"></span>
+    //     <div class="slider"></div>
+    //   </div>
+
+    //   <input class="title-or-description" type="text" placeholder="Seach for item...">
+
+    //   <div class="places">
+    //     <div class="reset">
+    //       <a href="javascript:void(0)" class="btn-flat-3d">none</a>
+    //       <a href="javascript:void(0)" class="btn-flat-3d">all</a>
+    //     </div>
+
+    //     <div class="list">
+    //     </div>
+    //   </div>
+
+    // </div>
+
+    // <div class="posts"></div>
+    // `
 
     document.body.style.overflow = 'hidden';
     document.body.appendChild(UIContainer);

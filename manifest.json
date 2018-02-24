@@ -1,18 +1,21 @@
 {
   "manifest_version": 2,
-  "name": "FB Sell Group Filter & Order",
-  "version": "0.0.1",
-
-  "description": "Filter & order sell items by price & name",
+  "name": "Filterify for Facebook",
+  "version": "1.0.0.0",
+  "description": "Filter and sort Facebook groups's sell items",
   "icons": {
     "16": "filter_16.png",
     "48": "filter_48.png",
     "128": "filter_128.png"
   },
-
+  "page_action": {
+    "default_title": "Filterify"
+  },
+  "author": "luca.bertolas@gmail.com",
   "content_scripts": [{
     "css": ["nouislider.min.css", "style.css"],
     "js": ["nouislider.min.js", "ext.js"],
-    "matches": ["https://*.facebook.com/groups/*/forsaleposts*"]
+    "matches": ["https://*.facebook.com/groups/*/forsaleposts*"],
+    "run_at": "document_start"
   }]
 }
